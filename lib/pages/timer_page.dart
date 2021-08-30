@@ -49,7 +49,7 @@ class TimerPage extends HookConsumerWidget {
                   ref.read(timerNotifier.notifier).startShortBreaking();
                 },
               ),
-              _RightBottomButton(
+              _BottomRightButton(
                 icon: Icon(Icons.work),
                 onPressed: () {
                   ref.read(timerNotifier.notifier).startPomodoro();
@@ -57,16 +57,11 @@ class TimerPage extends HookConsumerWidget {
               ),
             ] else
               // 完了前だったら、休憩用のボタンを控えめに出す
-              Positioned(
-                bottom: 24,
-                right: 24,
-                child: IconButton(
-                  icon: Icon(Icons.hotel),
-                  iconSize: 24,
-                  onPressed: () {
-                    ref.read(timerNotifier.notifier).startShortBreaking();
-                  },
-                ),
+              _BottomRightButton(
+                icon: Icon(Icons.hotel),
+                onPressed: () {
+                  ref.read(timerNotifier.notifier).startShortBreaking();
+                },
               )
           else if ({TimerType.shortBreaking, TimerType.longBreaking}
               .contains(type))
@@ -79,7 +74,7 @@ class TimerPage extends HookConsumerWidget {
                   ref.read(timerNotifier.notifier).startPomodoro();
                 },
               ),
-              _RightBottomButton(
+              _BottomRightButton(
                 icon: Icon(Icons.hotel),
                 onPressed: () {
                   ref.read(timerNotifier.notifier).startShortBreaking();
@@ -87,7 +82,7 @@ class TimerPage extends HookConsumerWidget {
               ),
             ] else
               // 完了前だったら、ポモドーロボタンを控えめに出す
-              _RightBottomButton(
+              _BottomRightButton(
                 icon: Icon(Icons.work),
                 onPressed: () {
                   ref.read(timerNotifier.notifier).startPomodoro();
@@ -99,11 +94,11 @@ class TimerPage extends HookConsumerWidget {
   }
 }
 
-class _RightBottomButton extends HookConsumerWidget {
+class _BottomRightButton extends HookConsumerWidget {
   final Widget icon;
   final VoidCallback? onPressed;
 
-  _RightBottomButton({
+  _BottomRightButton({
     required this.icon,
     required this.onPressed,
   });
