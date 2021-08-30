@@ -7,44 +7,47 @@ final timerNotifier =
     StateNotifierProvider<TimerNotifier, TimerState>((_) => TimerNotifier());
 
 class TimerNotifier extends StateNotifier<TimerState> {
-  DateTime? _startTime;
+  DateTime? _endTime;
   Timer? _timer;
-  int? _remainingSeconds;
 
   TimerNotifier()
       : super(
           TimerState(
-            seconds: 25 * 60,
+            remainingSeconds: 25 * 60,
             type: TimerType.pomodoro,
           ),
         );
 
-  void setPomodoro() {
-    _timer?.cancel();
-    state = TimerState(seconds: 25 * 60, type: TimerType.pomodoro);
+  void startPomodoro() {
+    _start(25 * 60, TimerType.pomodoro);
   }
 
-  void setShortBreaking() {
-    _timer?.cancel();
-    state = TimerState(seconds: 5 * 60, type: TimerType.shortBreaking);
+  void startShortBreaking() {
+    _start(5 * 60, TimerType.shortBreaking);
   }
 
-  void setLongBreaking() {
-    _timer?.cancel();
-    state = TimerState(seconds: 20 * 60, type: TimerType.longBreaking);
+  void startLongBreaking() {
+    _start(20 * 60, TimerType.longBreaking);
   }
 
-  void start() {
+  void _start(int seconds, TimerType type) {
     _timer?.cancel();
-    _remainingSeconds = state.seconds;
-    _startTime = DateTime.now();
+    _endTime = DateTime.now().add(Duration(seconds: seconds + 1));
+    state = TimerState(remainingSeconds: seconds, type: type, isRunning: true);
     _timer = Timer.periodic(const Duration(milliseconds: 100), (_) {
-      final seconds = DateTime.now().difference(_startTime!).inSeconds;
-      state = state.copyWith(
-        seconds: _remainingSeconds! - seconds,
-        isRunning: true,
-      );
+      final diff = _endTime!.difference(DateTime.now());
+      final s = diff.inSeconds - (diff.inMicroseconds < 0 ? 1 : 0);
+      state = state.copyWith(remainingSeconds: s);
     });
+  }
+
+  void pause() {
+    _timer?.cancel();
+    state = state.copyWith(isRunning: false);
+  }
+
+  void resume() {
+    _start(state.remainingSeconds, state.type);
   }
 
   @override

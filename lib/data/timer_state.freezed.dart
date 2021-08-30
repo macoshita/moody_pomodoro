@@ -17,9 +17,11 @@ class _$TimerStateTearOff {
   const _$TimerStateTearOff();
 
   _TimerState call(
-      {required int seconds, required TimerType type, bool isRunning = false}) {
+      {required int remainingSeconds,
+      required TimerType type,
+      bool isRunning = false}) {
     return _TimerState(
-      seconds: seconds,
+      remainingSeconds: remainingSeconds,
       type: type,
       isRunning: isRunning,
     );
@@ -31,7 +33,7 @@ const $TimerState = _$TimerStateTearOff();
 
 /// @nodoc
 mixin _$TimerState {
-  int get seconds => throw _privateConstructorUsedError;
+  int get remainingSeconds => throw _privateConstructorUsedError;
   TimerType get type => throw _privateConstructorUsedError;
   bool get isRunning => throw _privateConstructorUsedError;
 
@@ -45,7 +47,7 @@ abstract class $TimerStateCopyWith<$Res> {
   factory $TimerStateCopyWith(
           TimerState value, $Res Function(TimerState) then) =
       _$TimerStateCopyWithImpl<$Res>;
-  $Res call({int seconds, TimerType type, bool isRunning});
+  $Res call({int remainingSeconds, TimerType type, bool isRunning});
 }
 
 /// @nodoc
@@ -58,14 +60,14 @@ class _$TimerStateCopyWithImpl<$Res> implements $TimerStateCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? seconds = freezed,
+    Object? remainingSeconds = freezed,
     Object? type = freezed,
     Object? isRunning = freezed,
   }) {
     return _then(_value.copyWith(
-      seconds: seconds == freezed
-          ? _value.seconds
-          : seconds // ignore: cast_nullable_to_non_nullable
+      remainingSeconds: remainingSeconds == freezed
+          ? _value.remainingSeconds
+          : remainingSeconds // ignore: cast_nullable_to_non_nullable
               as int,
       type: type == freezed
           ? _value.type
@@ -85,7 +87,7 @@ abstract class _$TimerStateCopyWith<$Res> implements $TimerStateCopyWith<$Res> {
           _TimerState value, $Res Function(_TimerState) then) =
       __$TimerStateCopyWithImpl<$Res>;
   @override
-  $Res call({int seconds, TimerType type, bool isRunning});
+  $Res call({int remainingSeconds, TimerType type, bool isRunning});
 }
 
 /// @nodoc
@@ -100,14 +102,14 @@ class __$TimerStateCopyWithImpl<$Res> extends _$TimerStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? seconds = freezed,
+    Object? remainingSeconds = freezed,
     Object? type = freezed,
     Object? isRunning = freezed,
   }) {
     return _then(_TimerState(
-      seconds: seconds == freezed
-          ? _value.seconds
-          : seconds // ignore: cast_nullable_to_non_nullable
+      remainingSeconds: remainingSeconds == freezed
+          ? _value.remainingSeconds
+          : remainingSeconds // ignore: cast_nullable_to_non_nullable
               as int,
       type: type == freezed
           ? _value.type
@@ -125,11 +127,13 @@ class __$TimerStateCopyWithImpl<$Res> extends _$TimerStateCopyWithImpl<$Res>
 
 class _$_TimerState extends _TimerState {
   const _$_TimerState(
-      {required this.seconds, required this.type, this.isRunning = false})
+      {required this.remainingSeconds,
+      required this.type,
+      this.isRunning = false})
       : super._();
 
   @override
-  final int seconds;
+  final int remainingSeconds;
   @override
   final TimerType type;
   @JsonKey(defaultValue: false)
@@ -138,16 +142,16 @@ class _$_TimerState extends _TimerState {
 
   @override
   String toString() {
-    return 'TimerState(seconds: $seconds, type: $type, isRunning: $isRunning)';
+    return 'TimerState(remainingSeconds: $remainingSeconds, type: $type, isRunning: $isRunning)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _TimerState &&
-            (identical(other.seconds, seconds) ||
+            (identical(other.remainingSeconds, remainingSeconds) ||
                 const DeepCollectionEquality()
-                    .equals(other.seconds, seconds)) &&
+                    .equals(other.remainingSeconds, remainingSeconds)) &&
             (identical(other.type, type) ||
                 const DeepCollectionEquality().equals(other.type, type)) &&
             (identical(other.isRunning, isRunning) ||
@@ -158,7 +162,7 @@ class _$_TimerState extends _TimerState {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(seconds) ^
+      const DeepCollectionEquality().hash(remainingSeconds) ^
       const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(isRunning);
 
@@ -170,13 +174,13 @@ class _$_TimerState extends _TimerState {
 
 abstract class _TimerState extends TimerState {
   const factory _TimerState(
-      {required int seconds,
+      {required int remainingSeconds,
       required TimerType type,
       bool isRunning}) = _$_TimerState;
   const _TimerState._() : super._();
 
   @override
-  int get seconds => throw _privateConstructorUsedError;
+  int get remainingSeconds => throw _privateConstructorUsedError;
   @override
   TimerType get type => throw _privateConstructorUsedError;
   @override
