@@ -27,7 +27,9 @@ class TimerPage extends HookConsumerWidget {
             child: IconButton(
               icon: Icon(Icons.hotel),
               onPressed: () {
-                ref.read(timerNotifier.notifier).start();
+                ref.read(timerNotifier.notifier)
+                  ..setShortBreaking()
+                  ..start();
               },
             ),
           ),
