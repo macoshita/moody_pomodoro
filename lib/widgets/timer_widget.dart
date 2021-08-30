@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moody_pomodoro/notifiers/timer_notifier.dart';
 
-class TimerWidget extends StatelessWidget {
+class TimerWidget extends HookConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(timerNotifier.select((state) => state));
     return Text(
-      "25:00",
+      state.time,
       style: GoogleFonts.crimsonText(fontSize: 64),
     );
   }

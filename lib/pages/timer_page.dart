@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moody_pomodoro/app.dart';
+import 'package:moody_pomodoro/notifiers/timer_notifier.dart';
 import 'package:moody_pomodoro/widgets/timer_widget.dart';
 
 class TimerPage extends HookConsumerWidget {
@@ -25,7 +26,9 @@ class TimerPage extends HookConsumerWidget {
             right: 24,
             child: IconButton(
               icon: Icon(Icons.hotel),
-              onPressed: () {},
+              onPressed: () {
+                ref.read(timerNotifier.notifier).start();
+              },
             ),
           ),
         ],
