@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:settings_ui/settings_ui.dart';
+import 'package:moody_pomodoro/widgets/minutes_slider.dart';
 
 class SettingsPage extends HookConsumerWidget {
   @override
@@ -9,21 +9,11 @@ class SettingsPage extends HookConsumerWidget {
       appBar: AppBar(
         title: Text('Settings'),
       ),
-      body: SettingsList(
-        sections: [
-          SettingsSection(
-            title: 'Time',
-            tiles: [
-              SettingsTile(
-                title: 'Focus time',
-                subtitle: '25:00',
-              ),
-              SettingsTile(
-                title: 'Break time',
-                subtitle: '05:00',
-              ),
-            ],
-          )
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          MinutesSlider(title: "Pomodoro time", minutes: 25),
+          MinutesSlider(title: "Short breaking time", minutes: 5),
         ],
       ),
     );
