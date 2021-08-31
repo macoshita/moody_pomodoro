@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'timer_state.freezed.dart';
@@ -20,10 +21,41 @@ class TimerState with _$TimerState {
   }
 
   bool get isFinished => remainingSeconds <= 0;
+
+  TimerType get nextType =>
+      type == TimerType.pomodoro ? TimerType.shortBreaking : TimerType.pomodoro;
+
+  bool get showMoodyButton => isRunning && !isFinished;
+  bool get showStayButton => isFinished;
+  bool get showNextButton => isFinished;
 }
 
 enum TimerType {
   pomodoro,
   shortBreaking,
   longBreaking,
+}
+
+extension TimerTypeX on TimerType {
+  IconData get icon {
+    switch (this) {
+      case TimerType.pomodoro:
+        return Icons.work;
+      case TimerType.shortBreaking:
+        return Icons.hotel;
+      case TimerType.longBreaking:
+        return Icons.hotel;
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case TimerType.pomodoro:
+        return Colors.red;
+      case TimerType.shortBreaking:
+        return Colors.green;
+      case TimerType.longBreaking:
+        return Colors.green;
+    }
+  }
 }

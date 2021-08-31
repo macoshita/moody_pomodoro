@@ -18,16 +18,24 @@ class TimerNotifier extends StateNotifier<TimerState> {
           ),
         );
 
-  void startPomodoro() {
-    _start(25 * 60, TimerType.pomodoro);
+  void next() {
+    _start(_getSeconds(state.nextType), state.nextType);
   }
 
-  void startShortBreaking() {
-    _start(5 * 60, TimerType.shortBreaking);
+  void stay() {
+    _start(_getSeconds(state.type), state.type);
   }
 
-  void startLongBreaking() {
-    _start(20 * 60, TimerType.longBreaking);
+  int _getSeconds(TimerType type) {
+    // TODO: set seconds from settings
+    switch (type) {
+      case TimerType.pomodoro:
+        return 25 * 60;
+      case TimerType.shortBreaking:
+        return 5 * 60;
+      case TimerType.longBreaking:
+        return 20 * 60;
+    }
   }
 
   void _start(int seconds, TimerType type) {

@@ -11,7 +11,7 @@ class App extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     useEffect(() {
-      DesktopWindow.setWindowSize(Size(300, 300));
+      DesktopWindow.setWindowSize(Size(320, 320));
     }, const []);
 
     return MaterialApp(

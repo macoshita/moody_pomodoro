@@ -1,4 +1,6 @@
+import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moody_pomodoro/app.dart';
 import 'package:moody_pomodoro/data/timer_state.dart';
@@ -13,83 +15,72 @@ class TimerPage extends HookConsumerWidget {
     final isFinished =
         ref.watch(timerNotifier.select((value) => value.isFinished));
     final type = ref.watch(timerNotifier.select((value) => value.type));
+    final nextType = ref.watch(timerNotifier.select((value) => value.nextType));
+    final showMoodyButton =
+        ref.watch(timerNotifier.select((value) => value.showMoodyButton));
+    final showStayButton =
+        ref.watch(timerNotifier.select((value) => value.showStayButton));
+
+    useEffect(() {
+      if (isFinished) {
+        DesktopWindow.setFullScreen(true);
+      } else if (isRunning) {
+        DesktopWindow.setFullScreen(false);
+      }
+    }, [isFinished, isRunning]);
 
     return Scaffold(
-      body: Stack(
-        children: [
-          Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: IconButton(
-                icon: Icon(Icons.settings),
-                onPressed: () {
-                  ref.read(timerNotifier.notifier).pause();
-                  ref.read(showSettings).state = true;
-                },
+      body: Center(
+        child: SizedBox(
+          width: 300,
+          height: 300,
+          child: Stack(
+            children: [
+              Center(child: TimerWidget()),
+              Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: _SettingsButton(),
+                ),
               ),
-            ),
+              if (showMoodyButton)
+                _BottomRightButton(
+                  icon: Icon(nextType.icon),
+                  onPressed: () {
+                    ref.read(timerNotifier.notifier).next();
+                  },
+                )
+              else if (showStayButton)
+                _BottomRightButton(
+                  icon: Icon(type.icon),
+                  onPressed: () {
+                    ref.read(timerNotifier.notifier).stay();
+                  },
+                )
+            ],
           ),
-          Center(child: TimerWidget()),
-          if (!isRunning)
-            // タイマーが動いてなかったら再開ボタンを表示
-            _BottomBigButton(
-              icon: Icon(Icons.play_arrow),
-              onPressed: () {
-                ref.read(timerNotifier.notifier).resume();
-              },
-            )
-          else if (type == TimerType.pomodoro)
-            // ポモドーロ中
-            if (isFinished) ...[
-              // 完了後なら休憩ボタンを大きめに出し、作業を続けるボタンを控えめに出す
-              _BottomBigButton(
-                icon: Icon(Icons.hotel),
-                onPressed: () {
-                  ref.read(timerNotifier.notifier).startShortBreaking();
-                },
-              ),
-              _BottomRightButton(
-                icon: Icon(Icons.work),
-                onPressed: () {
-                  ref.read(timerNotifier.notifier).startPomodoro();
-                },
-              ),
-            ] else
-              // 完了前だったら、休憩用のボタンを控えめに出す
-              _BottomRightButton(
-                icon: Icon(Icons.hotel),
-                onPressed: () {
-                  ref.read(timerNotifier.notifier).startShortBreaking();
-                },
-              )
-          else if ({TimerType.shortBreaking, TimerType.longBreaking}
-              .contains(type))
-            // 休憩中
-            if (isFinished) ...[
-              // 急速完了後ならポモドーロボタンを大きめに出し、追加休みボタンを控えめに出す
-              _BottomBigButton(
-                icon: Icon(Icons.work),
-                onPressed: () {
-                  ref.read(timerNotifier.notifier).startPomodoro();
-                },
-              ),
-              _BottomRightButton(
-                icon: Icon(Icons.hotel),
-                onPressed: () {
-                  ref.read(timerNotifier.notifier).startShortBreaking();
-                },
-              ),
-            ] else
-              // 完了前だったら、ポモドーロボタンを控えめに出す
-              _BottomRightButton(
-                icon: Icon(Icons.work),
-                onPressed: () {
-                  ref.read(timerNotifier.notifier).startPomodoro();
-                },
-              )
-        ],
+        ),
       ),
+    );
+  }
+}
+
+class _SettingsButton extends HookConsumerWidget {
+  const _SettingsButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return IconButton(
+      icon: Icon(Icons.settings),
+      iconSize: 24,
+      splashRadius: 24,
+      onPressed: () {
+        if (!ref.read(timerNotifier).isFinished) {
+          ref.read(timerNotifier.notifier).pause();
+        }
+        ref.read(showSettings).state = true;
+      },
     );
   }
 }
@@ -108,35 +99,11 @@ class _BottomRightButton extends HookConsumerWidget {
     return Align(
       alignment: Alignment.bottomRight,
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(16),
         child: IconButton(
           icon: icon,
           iconSize: 24,
-          onPressed: onPressed,
-        ),
-      ),
-    );
-  }
-}
-
-class _BottomBigButton extends HookConsumerWidget {
-  final Widget icon;
-  final VoidCallback? onPressed;
-
-  _BottomBigButton({
-    required this.icon,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: IconButton(
-          icon: icon,
-          iconSize: 48,
+          splashRadius: 24,
           onPressed: onPressed,
         ),
       ),
