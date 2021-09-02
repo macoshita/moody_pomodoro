@@ -1,16 +1,15 @@
 # moody_pomodoro
 
-A new Flutter project.
+The pomodoro timer for the moody.
 
-## Getting Started
+- [x] Start a pomodoro.
+- [x] Take a short breaking.
+- [ ] Take a long breaking.
+- [x] Always take a short breaking.
+- [x] Always start a pomodoro.
+- [ ] Signal the end of pomodoro or breaking with full screen.
+  - [x] Ubuntu
+  - [ ] macOS
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![pomodoro](docs/images/screenshot1.png)
+![breaking](docs/images/screenshot2.png)
