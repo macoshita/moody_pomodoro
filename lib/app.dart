@@ -1,9 +1,9 @@
-import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moody_pomodoro/pages/settings/settings_page.dart';
 import 'package:moody_pomodoro/pages/timer_page.dart';
+import 'package:window_manager/window_manager.dart';
 
 final showSettings = StateProvider((ref) => false);
 
@@ -11,7 +11,7 @@ class App extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     useEffect(() {
-      DesktopWindow.setWindowSize(Size(320, 320));
+      WindowManager.instance.setSize(Size(320, 320));
     }, const []);
 
     return MaterialApp(
