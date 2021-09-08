@@ -9,7 +9,8 @@ The pomodoro timer for the moody.
 - [x] Always start a pomodoro.
 - [ ] Signal the end of pomodoro or breaking with full screen.
   - [x] Ubuntu
-  - [ ] macOS
+  - [x] macOS
+  - [ ] Windows
 
 ![pomodoro](docs/images/screenshot1.png)
 ![breaking](docs/images/screenshot2.png)
